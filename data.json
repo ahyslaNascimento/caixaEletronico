@@ -1,0 +1,23 @@
+{
+    "contas": [
+      {
+        "id": 1,
+        "nome": "João",
+        "senha": 123456,
+        "tipoConta": "Corrente",
+        "agencia": "01",
+        "numeroConta": "00003",
+        "saldos": 1500                
+      },
+      {
+        "id": 2,
+        "nome": "Maria",
+        "senha": 123456,
+        "tipoConta": "Poupança",
+        "agencia": "01",
+        "numeroConta": "00005",
+        "saldos": 1200
+        
+      }
+    ]
+}
