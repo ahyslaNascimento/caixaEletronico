@@ -1,0 +1,76 @@
+{
+  "contas": [
+    {
+      "id": 1,
+      "nome": "João",
+      "senha": 123456,
+      "tipoConta": "Corrente",
+      "agencia": "01",
+      "numeroConta": "00003",
+      "saldos": 1500
+    },
+    {
+      "id": 2,
+      "nome": "Maria",
+      "senha": 123456,
+      "tipoConta": "Poupança",
+      "agencia": "01",
+      "numeroConta": "00005",
+      "saldos": 1200
+    },
+    {
+      "id": 3,
+      "nome": "Marina",
+      "senha": "SenhaDaMarina",
+      "tipoConta": "Corrente",
+      "agencia": "905",
+      "numeroConta": "000003",
+      "saldo": 0
+    },
+    {
+      "id": 4,
+      "nome": "Ricardo",
+      "senha": "8056",
+      "tipoConta": "Salario",
+      "agencia": "805",
+      "numeroConta": "000004",
+      "saldo": 500
+    },
+    {
+      "id": 5,
+      "nome": "Kelen",
+      "senha": "SenhaDaKelen",
+      "tipoConta": "Poupanca",
+      "agencia": "806",
+      "numeroConta": "000005",
+      "saldo": 500000
+    },
+    {
+      "id": 6,
+      "nome": "Luisa",
+      "senha": "1234",
+      "tipoConta": "Corrente",
+      "agencia": "123",
+      "numeroConta": "000006",
+      "saldo": 150
+    },
+    {
+      "id": 7,
+      "nome": "Daniel",
+      "senha": "12345",
+      "tipoConta": "Corrente",
+      "agencia": "123",
+      "numeroConta": "000007",
+      "saldo": 150
+    },
+    {
+      "id": 8,
+      "nome": "Carla",
+      "senha": "5656",
+      "tipoConta": "corrente",
+      "agencia": "05",
+      "numeroConta": "000008",
+      "saldo": 500
+    }
+  ]
+}

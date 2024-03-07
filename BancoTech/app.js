@@ -1,4 +1,6 @@
-import dados from '../data.json';
+const fs = require('fs');
+const dados = require('./data.json');
+const _contas = dados.contas;
 
 const prompt = require('prompt-sync')(); // Configuração do prompt
 let opcao = 0;
@@ -50,7 +52,7 @@ function exibirMenu() {
 // Funções para cada opção do menu que o usuário vai escolher
 function acessarConta() {
     //transformando os dados do json em um array de contas
-    const contas = dados.contas;
+    const contas = _contas;
 
     console.log('Bem Vindo a sua conta Tech!');
     // armazenando os dados
@@ -70,28 +72,56 @@ function acessarConta() {
 }
 
 function criarConta() {
-    console.log('Crie sua conta em segundos!');
-    dados.contas.push(novoUsuario); // adcionando novo, mandando pro json
+    console.log("=== Cadastro de Contas ===");
+    console.log("Informe os dados da nova conta:");
+    const nomeNC = prompt("Digite o nome:");
+    const senhaNC = prompt("Digite a senha:");
+    const tipoContaNC = prompt("Digite o tipo de conta:");
+    const agenciaNC = prompt("Digite a agência:");
+    const saldoInicial = parseFloat(prompt("Digite o saldo inicial:") || 0.00);
 
-    const novoUsuario = {
+    // Gerar um ID autoincrementado
+    const novoId = _contas.length + 1;
+
+    // Gerar um numeroConta autoincrementado
+    const numeroContaNC = (_contas.length + 1).toString().padStart(6, '0'); 
+
+
+    // Cria um novo objeto de conta para passar para o JSON
+    const novaConta = {
         "id": novoId,
-        "nome": nome,
-        "senha": senha,
-        "tipoConta": tipoConta,
-        "agencia": agencia,
-        "conta": conta,
-        "saldo": parseFloat(saldoInicial) || 0.00
+        "nome": nomeNC,
+        "senha": senhaNC,
+        "tipoConta": tipoContaNC,
+        "agencia": agenciaNC,
+        "numeroConta": numeroContaNC,
+        "saldo": saldoInicial
     };
 
-    // Lógica da opção criar conta
+    // Passa o objeto para o JSON
+    _contas.push(novaConta);
 
+    // Salvar JSON
+    const salvarJSON = { contas: _contas };
+    fs.writeFileSync('./BancoTech/data.json', JSON.stringify(salvarJSON, null, 2), 'utf-8');
 
+    console.log("Conta cadastrada com sucesso!");
 }
 
 function removerConta() {
-    console.log('Não nos abandone!');
-    // Lógica da opção remover conta
 
+    // Encontrar a conta a ser removida
+    const contaARemover= contas.find(conta => { return conta.numeroConta === contaInformada && conta.senha === senhaInformada; });
+
+    //Pedir confirmação para remoção (usar uma váriável senha ou nome)
+    // Esse splice o ideal é ficar dentro de um if onde o usuário digitará a confirmação
+    _contas.splice(contaARemover, 1);
+
+    // Salvar JSON com a conta removida
+    const salvarJSON = { contas: _contas };
+    fs.writeFileSync('./BancoTech/data.json', JSON.stringify(salvarJSON, null, 2), 'utf-8');
+
+    console.log("Conta removida com sucesso")
 }
 
 function sair() {

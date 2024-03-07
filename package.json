@@ -5,9 +5,9 @@
     "readline-sync": "^1.4.10"
   },
   "name": "caixaeletronico",
-  "description": "<h4 align=\"center\"> \r     :construction:  Trabalho da UC - Caixa Eletrônico :construction: \r </h4>\r <p align=\"center\">\r <img loading=\"lazy\" src=\"http://img.shields.io/static/v1?label=STATUS&message=%20EM_DESENVOLVIMENTO&color=GREEN&style=for-the-badge\"/>\r </p>",
+  "description": "## Projeto Caixa Eletrônico",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "BancoTech/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./BancoTech/app.js"
