@@ -5,6 +5,17 @@ const _contas = dados.contas;
 const prompt = require("prompt-sync")(); // Configuração do prompt
 let opcao = 0;
 
+// Função de delay para aparecer o menu novamente
+function sleep(milliseconds) {
+  let timeStart = new Date().getTime();
+  while (true) {
+    let elapsedTime = new Date().getTime() - timeStart;
+    if (elapsedTime > milliseconds){
+      break;
+    }
+  }
+}
+
 // Programa exibindo o menu principal.
 function iniciarPrograma() {
   do {
@@ -177,9 +188,8 @@ function processarOpcao(opcao) {
 
 // Parte Ahysla
 // função que faz o menu da conta ser exibido 
-function exibirMenuConta(conta) {// adcionei, mas foi ahysla que fez
+function exibirMenuConta(conta) {
   let opcaoConta;
-  let voltarMenuPrincipal = false;
 
   do {
     console.log("------------------------");
@@ -194,18 +204,58 @@ function exibirMenuConta(conta) {// adcionei, mas foi ahysla que fez
 
     // solicitação para o usuário escolher entre as opções
     opcaoConta = prompt("Escolha uma opção: ");
-    /*  console.clear(); */
 
-    // processando qual opção foi escolhida
-    voltarMenuPrincipal = processarOpcaoConta(opcaoConta, conta);
+    console.clear(); // limpa a tela após a escolha da opção
 
-    // Se a opção escolhida não for voltar ao menu principal, continuar exibindo o menu da conta
-    if (!voltarMenuPrincipal && opcaoConta !== '0') {
-      /*  continuar();
-       console.clear(); */
+    if (opcaoConta === '0') {
+      voltarAoMenuPrincipal();
+      break; // sai do loop quando o usuário escolhe a opção 0
+    } else {
+      // o loop deve continuar enquanto a função retornar true
+      if (processarOpcaoConta(opcaoConta, conta)) {
+        continue;
+      } else {
+        break; // sai do loop se a função retornar false
+      }
     }
+  } while (true);
+}
 
-  } while (opcaoConta !== '0');
+// Processando a opção escolhida no menu conta
+function processarOpcaoConta(opcao, conta) {
+  switch (opcao) {
+    case '1':
+      console.clear();
+      verSaldo(conta);
+      sleep(500);
+      break;
+    case '2':
+      console.clear();
+      sacar(conta);
+      sleep(500);
+      break;
+    case '3':
+      console.clear();
+      depositar(conta);
+      sleep(500);
+      break;
+    case '4':
+      console.clear();
+      verInformacoesCliente(conta);
+      sleep(500);
+      break;
+    case '5':
+      console.clear();
+      alterarSenha(conta);
+      sleep(500);
+      break;
+    case '0':
+      console.clear();
+      console.log('Voltando ao Menu Principal...');
+      break;
+    default:
+      console.log('Opção inválida. Tente novamente.');
+  }
 }
 
 // Para visualizar o saldo da conta
@@ -255,33 +305,43 @@ function alterarSenha(conta) {
 
 function voltarAoMenuPrincipal() {
   console.log('Voltando ao Menu Principal...');
-  return true; // Retornando true e indicando que deve voltar ao menu principal
+  iniciarPrograma(); // reiniciando o loop do menu principal
 }
 
 // Processando a opção escolhida no menu conta
 function processarOpcaoConta(opcao, conta) {
   switch (opcao) {
     case '1':
+      console.clear();
       verSaldo(conta);
+      sleep(500);
       break;
     case '2':
+      console.clear();
       sacar(conta);
+      sleep(500);
       break;
     case '3':
+      console.clear();
       depositar(conta);
+      sleep(500);
       break;
     case '4':
+      console.clear();
       verInformacoesCliente(conta);
-      // sleep
+      sleep(500);
       break;
     case '5':
+      console.clear();
       alterarSenha(conta);
+      sleep(500);
       break;
     case '0':
-      return voltarAoMenuPrincipal(); // Chamando a função e retornando o valor que indica voltar ao menu principal
+      return voltarAoMenuPrincipal(); // chamando a função e retornando o valor que indica voltar ao menu principal
     default:
       console.log('Opção inválida. Tente novamente.');
+      
   }
-// cada um colocar um clear
-  return true; // Retornando true por padrão para continuar exibindo o menu da conta
+
+  return true; //loop para continuar exibindo o menu conta até a opção 0 ser selecionada
 } 
