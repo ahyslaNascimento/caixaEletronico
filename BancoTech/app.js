@@ -5,7 +5,7 @@ const _contas = dados.contas;
 const prompt = require("prompt-sync")(); // Configuração do prompt
 let opcao = 0;
 
-// Função de delay para aparecer o menu novamente
+// para dar um atraso ao aparecer o menu novamente
 function sleep(milliseconds) {
   let timeStart = new Date().getTime();
   while (true) {
@@ -185,11 +185,13 @@ function processarOpcao(opcao) {
   }
 }
 
+//------------------------------------------//
 
 // Parte Ahysla
 // função que faz o menu da conta ser exibido 
 function exibirMenuConta(conta) {
   let opcaoConta;
+  let voltarMenuPrincipal = false;
 
   do {
     console.log("------------------------");
@@ -205,58 +207,15 @@ function exibirMenuConta(conta) {
     // solicitação para o usuário escolher entre as opções
     opcaoConta = prompt("Escolha uma opção: ");
 
-    console.clear(); // limpa a tela após a escolha da opção
+    // processando qual opção foi escolhida
+    voltarMenuPrincipal = processarOpcaoConta(opcaoConta, conta);
 
-    if (opcaoConta === '0') {
-      voltarAoMenuPrincipal();
-      break; // sai do loop quando o usuário escolhe a opção 0
-    } else {
-      // o loop deve continuar enquanto a função retornar true
-      if (processarOpcaoConta(opcaoConta, conta)) {
-        continue;
-      } else {
-        break; // sai do loop se a função retornar false
-      }
+    // Se a opção escolhida não for voltar ao menu principal, continuar exibindo o menu da conta
+    if (!voltarMenuPrincipal && opcaoConta !== '0') {
     }
-  } while (true);
+  } while (opcaoConta !== '0');
 }
 
-// Processando a opção escolhida no menu conta
-function processarOpcaoConta(opcao, conta) {
-  switch (opcao) {
-    case '1':
-      console.clear();
-      verSaldo(conta);
-      sleep(500);
-      break;
-    case '2':
-      console.clear();
-      sacar(conta);
-      sleep(500);
-      break;
-    case '3':
-      console.clear();
-      depositar(conta);
-      sleep(500);
-      break;
-    case '4':
-      console.clear();
-      verInformacoesCliente(conta);
-      sleep(500);
-      break;
-    case '5':
-      console.clear();
-      alterarSenha(conta);
-      sleep(500);
-      break;
-    case '0':
-      console.clear();
-      console.log('Voltando ao Menu Principal...');
-      break;
-    default:
-      console.log('Opção inválida. Tente novamente.');
-  }
-}
 
 // Para visualizar o saldo da conta
 function verSaldo(conta) {
@@ -276,7 +235,7 @@ function sacar(conta) {
   }
 }
 
-// Fazer depositos
+// fazer depositos
 function depositar(conta) {
   const valorDeposito = parseFloat(prompt('Digite o valor que deseja depositar:'));
   if (valorDeposito <= 0 || isNaN(valorDeposito)) {
@@ -287,7 +246,7 @@ function depositar(conta) {
   }
 }
 
-// Para mostrar as informações dos clientes
+// para mostrar as informações dos clientes
 function verInformacoesCliente(conta) {
   console.log(`Informações do Cliente:
         Nome: ${conta.nome}
@@ -296,17 +255,19 @@ function verInformacoesCliente(conta) {
         Número da Conta: ${conta.numeroConta}`);
 }
 
-// Para alterar a senha
+// para alterar a senha
 function alterarSenha(conta) {
   const novaSenha = prompt('Digite a nova senha:');
   conta.senha = novaSenha;
   console.log('Senha alterada com sucesso.');
 }
 
+// para voltar ao menu prinpal ao escolher a opção 0 em menu conta
 function voltarAoMenuPrincipal() {
   console.log('Voltando ao Menu Principal...');
-  iniciarPrograma(); // reiniciando o loop do menu principal
+  iniciarPrograma();
 }
+
 
 // Processando a opção escolhida no menu conta
 function processarOpcaoConta(opcao, conta) {
@@ -314,34 +275,34 @@ function processarOpcaoConta(opcao, conta) {
     case '1':
       console.clear();
       verSaldo(conta);
-      sleep(500);
+      sleep(1000);
       break;
     case '2':
       console.clear();
       sacar(conta);
-      sleep(500);
+      sleep(1000);
       break;
     case '3':
       console.clear();
       depositar(conta);
-      sleep(500);
+      sleep(1000);
       break;
     case '4':
       console.clear();
       verInformacoesCliente(conta);
-      sleep(500);
+      sleep(1000);
       break;
     case '5':
       console.clear();
       alterarSenha(conta);
-      sleep(500);
+      sleep(1000);
       break;
     case '0':
-      return voltarAoMenuPrincipal(); // chamando a função e retornando o valor que indica voltar ao menu principal
+      console.clear();
+      voltarAoMenuPrincipal();
+      sleep(1000);
+      break;
     default:
       console.log('Opção inválida. Tente novamente.');
-      
   }
-
-  return true; //loop para continuar exibindo o menu conta até a opção 0 ser selecionada
-} 
+}
