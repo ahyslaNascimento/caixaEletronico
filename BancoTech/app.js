@@ -23,7 +23,7 @@ function continuar() {
       console.log("Opção inválida. Tente novamente.");
     }
   } while (opcao2 !== "N" && opcao2 !== "S");
-}''
+} ''
 
 // Chama a função que iniciará o programa
 iniciarPrograma();
@@ -120,26 +120,32 @@ function criarConta() {
 }
 
 function removerConta() {
+  const contaRemover = prompt("Digite sua conta: ");
+  const senhaRemover = prompt("Digite sua senha: ");
+
   // Encontrar a conta a ser removida
-  const contaARemover = contas.find((conta) => {
+  const contaARemover = _contas.find((conta) => {
     return (
-      conta.numeroConta === contaInformada && conta.senha === senhaInformada
+      conta.numeroConta.toString() === contaRemover && conta.senha.toString() === senhaRemover
     );
   });
 
-  //Pedir confirmação para remoção (usar uma váriável senha ou nome)
-  // Esse splice o ideal é ficar dentro de um if onde o usuário digitará a confirmação
-  _contas.splice(contaARemover, 1);
+  if (contaARemover) {
+    // Esse splice faz a remoção depois da confirmação
+    _contas.splice(contaARemover, 1);
 
-  // Salvar JSON com a conta removida
-  const salvarJSON = { contas: _contas };
-  fs.writeFileSync(
-    "./BancoTech/data.json",
-    JSON.stringify(salvarJSON, null, 2),
-    "utf-8"
-  );
+    // Salvar JSON com a conta removida
+    const salvarJSON = { contas: _contas };
+    fs.writeFileSync(
+      "./BancoTech/data.json",
+      JSON.stringify(salvarJSON, null, 2),
+      "utf-8"
+    );
+    console.log("Conta removida com sucesso");
 
-  console.log("Conta removida com sucesso");
+  } else {
+    console.log("Conta não encontrada!");
+  }
 }
 
 function sair() {
@@ -168,76 +174,72 @@ function processarOpcao(opcao) {
   }
 }
 
+
+// Parte Ahysla
 // função que faz o menu da conta ser exibido 
-function exibirMenuConta(conta) {
-    let opcaoConta;
-    do {
-        console.log("------------------------");
-        console.log("### Menu da Sua Conta ###");
-        console.log("------------------------");
-        console.log("1) Ver Saldo");
-        console.log("2) Sacar");
-        console.log("3) Depositar");
-        console.log("4) Ver Informações do Cliente");
-        console.log("5) Alterar Senha");
-        console.log("0) Voltar ao menu principal");
+function exibirMenuConta(conta) {// adcionei, mas foi ahysla que fez
+  let opcaoConta;
+  let voltarMenuPrincipal = false;
 
-        // solitação para o usuario escolher entre as opções
-        opcaoConta = prompt("Escolha uma opção: ");
-        console.clear();
+  do {
+    console.log("------------------------");
+    console.log("### Menu da Sua Conta ###");
+    console.log("------------------------");
+    console.log("1) Ver Saldo");
+    console.log("2) Sacar");
+    console.log("3) Depositar");
+    console.log("4) Ver Informações do Cliente");
+    console.log("5) Alterar Senha");
+    console.log("0) Voltar ao Menu Principal");
 
-        // processando qual opção foi escolhida
-        processarOpcaoConta(opcaoConta, conta);
+    // solicitação para o usuário escolher entre as opções
+    opcaoConta = prompt("Escolha uma opção: ");
+    /*  console.clear(); */
 
-        voltarMenuPrincipal = processarOpcaoConta(opcaoConta, conta);
+    // processando qual opção foi escolhida
+    voltarMenuPrincipal = processarOpcaoConta(opcaoConta, conta);
 
-        // Se a opção escolhida indicar para voltar ao menu principal, sair do loop
-        if (voltarMenuPrincipal) {
-            console.clear();
-            break;
-        }
+    // Se a opção escolhida não for voltar ao menu principal, continuar exibindo o menu da conta
+    if (!voltarMenuPrincipal && opcaoConta !== '0') {
+      /*  continuar();
+       console.clear(); */
+    }
 
-        // Se a opção escolhida não for voltar ao menu principal, continuar exibindo o menu da conta
-        if (opcaoConta !== '0') {
-            continuar();
-            console.clear();
-        }
-
-    } while (opcaoConta !== '0');
+  } while (opcaoConta !== '0');
 }
 
 // Para visualizar o saldo da conta
 function verSaldo(conta) {
-    console.log(`Seu saldo atual é: ${conta.saldo}`);
+  console.log(`Seu saldo atual é: ${conta.saldo}`);
 }
 
 // Para fazer saques
 function sacar(conta) {
-    const valorSaque = parseFloat(prompt('Digite o valor que deseja sacar:'));
-    if (valorSaque <= 0 || isNaN(valorSaque)) {
-        console.log('Valor inválido. Tente novamente.');
-    } else if (valorSaque > conta.saldo) {
-        console.log('Saldo insuficiente. Operação cancelada.');
-    } else {
-        conta.saldo -= valorSaque;
-        console.log(`Saque de R$ ${valorSaque} realizado com sucesso.`);
-    }
+  const valorSaque = parseFloat(prompt('Digite o valor que deseja sacar:'));
+  if (valorSaque <= 0 || isNaN(valorSaque)) {
+    console.log('Valor inválido. Tente novamente.');
+  } else if (valorSaque > conta.saldo) {
+    console.log('Saldo insuficiente. Operação cancelada.');
+  } else {
+    conta.saldo -= valorSaque;
+    console.log(`Saque de R$ ${valorSaque} realizado com sucesso.`);
+  }
 }
 
 // Fazer depositos
 function depositar(conta) {
-    const valorDeposito = parseFloat(prompt('Digite o valor que deseja depositar:'));
-    if (valorDeposito <= 0 || isNaN(valorDeposito)) {
-        console.log('Valor inválido. Tente novamente.');
-    } else {
-        conta.saldo += valorDeposito;
-        console.log(`Depósito de R$ ${valorDeposito} realizado com sucesso.`);
-    }
+  const valorDeposito = parseFloat(prompt('Digite o valor que deseja depositar:'));
+  if (valorDeposito <= 0 || isNaN(valorDeposito)) {
+    console.log('Valor inválido. Tente novamente.');
+  } else {
+    conta.saldo += valorDeposito;
+    console.log(`Depósito de R$ ${valorDeposito} realizado com sucesso.`);
+  }
 }
 
 // Para mostrar as informações dos clientes
 function verInformacoesCliente(conta) {
-    console.log(`Informações do Cliente:
+  console.log(`Informações do Cliente:
         Nome: ${conta.nome}
         Tipo de Conta: ${conta.tipoConta}
         Agência: ${conta.agencia}
@@ -246,39 +248,40 @@ function verInformacoesCliente(conta) {
 
 // Para alterar a senha
 function alterarSenha(conta) {
-    const novaSenha = prompt('Digite a nova senha:');
-    conta.senha = novaSenha;
-    console.log('Senha alterada com sucesso.');
+  const novaSenha = prompt('Digite a nova senha:');
+  conta.senha = novaSenha;
+  console.log('Senha alterada com sucesso.');
 }
 
 function voltarAoMenuPrincipal() {
-    console.log('Voltando ao Menu Principal...');
-    return true; // Retornando true e indicando que deve voltar ao menu principal
+  console.log('Voltando ao Menu Principal...');
+  return true; // Retornando true e indicando que deve voltar ao menu principal
 }
 
 // Processando a opção escolhida no menu conta
 function processarOpcaoConta(opcao, conta) {
-    switch (opcao) {
-        case '1':
-            verSaldo(conta);
-            break;
-        case '2':
-            sacar(conta);
-            break;
-        case '3':
-            depositar(conta);
-            break;
-        case '4':
-            verInformacoesCliente(conta);
-            break;
-        case '5':
-            alterarSenha(conta);
-            break;
-        case '0':
-            return voltarAoMenuPrincipal(); // Chamando a função e retornando o valor que indica voltar ao menu principal
-        default:
-            console.log('Opção inválida. Tente novamente.');
-    }
-
-    return true; // Retornando true por padrão para continuar exibindo o menu da conta
+  switch (opcao) {
+    case '1':
+      verSaldo(conta);
+      break;
+    case '2':
+      sacar(conta);
+      break;
+    case '3':
+      depositar(conta);
+      break;
+    case '4':
+      verInformacoesCliente(conta);
+      // sleep
+      break;
+    case '5':
+      alterarSenha(conta);
+      break;
+    case '0':
+      return voltarAoMenuPrincipal(); // Chamando a função e retornando o valor que indica voltar ao menu principal
+    default:
+      console.log('Opção inválida. Tente novamente.');
+  }
+// cada um colocar um clear
+  return true; // Retornando true por padrão para continuar exibindo o menu da conta
 } 
